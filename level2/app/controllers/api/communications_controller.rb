@@ -1,5 +1,6 @@
 class Api::CommunicationsController < ApplicationController
 
+
   def create
     practitioner = Practitioner.where(first_name: communication_params[:first_name], last_name: communication_params[:last_name]).first
 
@@ -11,11 +12,14 @@ class Api::CommunicationsController < ApplicationController
   end
 
   def index
-    render json: Communication.all.to_json, status: :ok
+    communications = Communication.page params[:page][:number]
+    render json: communications, status: :ok
   end
 
   def communication_params
     params.require(:communication).permit(:first_name, :last_name, :sent_at)
   end
 
+
 end
+
