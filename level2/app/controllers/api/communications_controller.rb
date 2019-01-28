@@ -12,11 +12,13 @@ class Api::CommunicationsController < ApplicationController
   end
 
   def index
+      fresh_when(@communications) # HTTP caching
     if params[:page].nil?
-      render json: Communication.page(1), status: :ok
+      @communications = Communication.page(1)
+      render json: @communications, status: :ok
     else
-      communications = Communication.page params[:page][:number]
-      render json: communications, status: :ok
+      @communications = Communication.page params[:page][:number]
+      render json: @communications, status: :ok
     end
   end
 
