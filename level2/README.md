@@ -44,4 +44,6 @@ curl -X POST \
 }'
 ```
 
-
+###########################
+j'ai ajouté la pagination pour accélerer le chargement du 1er endpoint.
+http://localhost:3000/api/communications?page%5Bnumber%5D=2&page%5Bsize%5D=30

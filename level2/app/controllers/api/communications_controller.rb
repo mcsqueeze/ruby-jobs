@@ -12,14 +12,16 @@ class Api::CommunicationsController < ApplicationController
   end
 
   def index
-    communications = Communication.page params[:page][:number]
-    render json: communications, status: :ok
+    if params[:page].nil?
+      render json: Communication.page(1), status: :ok
+    else
+      communications = Communication.page params[:page][:number]
+      render json: communications, status: :ok
+    end
   end
 
   def communication_params
     params.require(:communication).permit(:first_name, :last_name, :sent_at)
   end
-
-
 end
 
