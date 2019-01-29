@@ -2,22 +2,17 @@ class Api::CommunicationsController < ApplicationController
 
 
   def create
-    practitioner = Practitioner.where(first_name: communication_params[:first_name], last_name: communication_params[:last_name]).first
-
-    communication = Communication.new(practitioner_id: practitioner.id, sent_at: communication_params[:sent_at])
-
-    communication.save
-
+    practitioner = Practitioner.find_by(first_name: communication_params[:first_name], last_name: communication_params[:last_name])
+    communication = Communication.where(practitioner_id: practitioner.id, sent_at: communication_params[:sent_at]).first_or_create
     render json: communication.to_json, status: :created
   end
 
   def index
-      fresh_when(@communications) # HTTP caching
     if params[:page].nil?
-      @communications = Communication.page(1)
+      @communications = Communication.includes(:practitioner).page(1)
       render json: @communications, status: :ok
     else
-      @communications = Communication.page params[:page][:number]
+      @communications = Communication.includes(:practitioner).page params[:page][:number]
       render json: @communications, status: :ok
     end
   end
@@ -26,4 +21,6 @@ class Api::CommunicationsController < ApplicationController
     params.require(:communication).permit(:first_name, :last_name, :sent_at)
   end
 end
+
+
 
