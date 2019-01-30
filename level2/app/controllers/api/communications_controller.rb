@@ -10,11 +10,10 @@ class Api::CommunicationsController < ApplicationController
   def index
     if params[:page].nil?
       @communications = Communication.includes(:practitioner).page(1)
-      render json: @communications, status: :ok
     else
       @communications = Communication.includes(:practitioner).page params[:page][:number]
-      render json: @communications, status: :ok
     end
+      render json: @communications, status: :ok
   end
 
   def communication_params

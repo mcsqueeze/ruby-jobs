@@ -46,10 +46,16 @@ curl -X POST \
 
 ###########################
 1er endpoint:
-j'ai ajouté la pagination pour accélerer le chargement du 1er endpoint.
-gems 'kaminari' et 'active_model_serializers'
+controller:
+pour accélerer le chargement coté ActiveRecords j'ai ajouté le .includes (gem bullet)
+et pour le coté Views j'ai ajouté la pagination (gem kaminari)
 on accède aux pages suivantes via les liens en bas de page
+spec/support/api_helper:
+ajout d'un test rspec
 
 2nd enpoint:
-j'ai ajouté le cas où le praticien appelé n'existe pas => message d'erreur
+seeds.rb:
+ajout du praticien "Fritz Kertzmann"
+controller :
+j'ai remplacé le .first puis .save par un unique .first_or_create
 
